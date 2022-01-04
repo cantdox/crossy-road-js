@@ -1,0 +1,174 @@
+<!-- My scene -->
+<canvas id="scene"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+<script>
+var ww = window.innerWidth,
+  wh = window.innerHeight;
+
+function init() {
+
+  /* WEBGL RENDERER */
+  renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('scene')
+  });
+  renderer.setClearColor(0x3F3F3F);
+  renderer.setSize(ww, wh);
+
+  /* SCENE */
+  scene = new THREE.Scene();
+
+  /* CAMERA */
+  camera = new THREE.PerspectiveCamera(50, ww / wh, 1, 10000);
+  camera.position.set(0, 0, 700);
+  scene.add(camera);
+
+  /* LIGHT */
+  light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(0, 250, 700);
+  scene.add(light);
+
+  
+
+
+scene.add(createCar2());
+
+
+  renderer.render(scene, camera);
+};
+function createWheels() {
+  const geometry = new THREE.BoxBufferGeometry(12, 12, 33);
+  const material = new THREE.MeshLambertMaterial({ color: 0x333333 });
+  const wheel = new THREE.Mesh(geometry, material);
+  return wheel;
+}
+function getCarFrontTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 32;
+  const context = canvas.getContext("2d");
+
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, 64, 32);
+
+  context.fillStyle = "#666666";
+  context.fillRect(8, 8, 48, 24);
+
+  return new THREE.CanvasTexture(canvas);
+}
+function getCarSideTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 128;
+  canvas.height = 32;
+  const context = canvas.getContext("2d");
+
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, 128, 32);
+
+  context.fillStyle = "#666666";
+  context.fillRect(10, 8, 38, 24);
+  context.fillRect(58, 8, 60, 24);
+
+  return new THREE.CanvasTexture(canvas);
+}
+function createCar() {
+  const car = new THREE.Group();
+
+  const backWheel = createWheels();
+  backWheel.position.y = 6;
+  backWheel.position.x = -18;
+  car.add(backWheel);
+
+  const frontWheel = createWheels();
+  frontWheel.position.y = 6;
+  frontWheel.position.x = 18;
+  car.add(frontWheel);
+
+  const main = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(60, 15, 30),
+    new THREE.MeshLambertMaterial({ color: 0xa52523 })
+  );
+  main.position.y = 12;
+  car.add(main);
+
+  const carFrontTexture = getCarFrontTexture();
+
+  const carBackTexture = getCarFrontTexture();
+
+  const carRightSideTexture = getCarSideTexture();
+
+  const carLeftSideTexture = getCarSideTexture();
+  carLeftSideTexture.center = new THREE.Vector2(0.5, 0.5);
+  carLeftSideTexture.rotation = Math.PI;
+  carLeftSideTexture.flipY = false;
+
+  const cabin = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 12, 24), [
+    new THREE.MeshLambertMaterial({ map: carFrontTexture }),
+    new THREE.MeshLambertMaterial({ map: carBackTexture }),
+    new THREE.MeshLambertMaterial({ color: 0xffffff }), // top
+    new THREE.MeshLambertMaterial({ color: 0xffffff }), // bottom
+    new THREE.MeshLambertMaterial({ map: carRightSideTexture }),
+    new THREE.MeshLambertMaterial({ map: carLeftSideTexture }),
+  ]);
+  cabin.position.x = -6;
+  cabin.position.y = 25.5;
+  car.add(cabin);
+
+  return car;
+}
+
+  function createCar2() {
+  const car = new THREE.Group();
+
+  const backWheel = createWheels();
+  backWheel.position.y = 6;
+  backWheel.position.x = -18;
+  car.add(backWheel);
+
+  const frontWheel = createWheels();
+  frontWheel.position.y = 6;
+  frontWheel.position.x = 18;
+  car.add(frontWheel);
+
+  const main = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(60, 15, 30),
+    new THREE.MeshLambertMaterial({ color: 0xa52523 })
+  );
+  main.position.y = 12;
+  car.add(main);
+
+  // const carFrontTexture = getCarFrontTexture();
+
+  // const carBackTexture = getCarFrontTexture();
+
+  // const carRightSideTexture = getCarSideTexture();
+
+  // const carLeftSideTexture = getCarSideTexture();
+  // carLeftSideTexture.center = new THREE.Vector2(0.5, 0.5);
+  // carLeftSideTexture.rotation = Math.PI;
+  // carLeftSideTexture.flipY = false;
+
+  var loader = new THREE.TextureLoader();
+  // loader.crossOrigin = 'anonymous';
+  var texture = loader.load("images.jpg");
+
+  // material = new THREE.MeshLambertMaterial({
+  //   map: texture
+  // });
+
+  const cabin = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 12, 24), [
+    new THREE.MeshLambertMaterial({ map: texture }),
+    new THREE.MeshLambertMaterial({ map: texture }),
+    new THREE.MeshLambertMaterial({ color: 0xffffff }), // top
+    new THREE.MeshLambertMaterial({ color: 0xffffff }), // bottom
+    new THREE.MeshLambertMaterial({ map: texture }),
+    new THREE.MeshLambertMaterial({ map: texture }),
+  ]);
+  cabin.position.x = -6;
+  cabin.position.y = 25.5;
+  car.add(cabin);
+
+  return car;
+}
+
+init();
+</script>
