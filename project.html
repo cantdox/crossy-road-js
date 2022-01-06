@@ -15,6 +15,8 @@
     /* WEBGL RENDERER */
     renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
     renderer.setClearColor(0x008000);
+    renderer.shadowMap.enabled = true;
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(ww, wh);
 
     /* SCENE */
@@ -52,16 +54,32 @@ scene.add(camera);
 
     /* LIGHT */
     light = new THREE.DirectionalLight(0xffffff, 0.5);
-    light.position.set(-200, -100, 200);
+    light.position.set(-200, -500, 200);
+    light.castShadow = true;
+    light.shadowDarkness = 0.5;
+    light.shadowDarkness =100;
+
+    light.shadow.mapSize.width = 2048;
+light.shadow.mapSize.height = 2048;
+var d = 500;
+light.shadow.camera.left = - d;
+light.shadow.camera.right = d;
+light.shadow.camera.top = d;
+light.shadow.camera.bottom = - d;
+// light.target = chicken;
  scene.add(light);
 
     ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 	 ambientLight.position.set( 0, 1000, 50 );
+   ambientLight.castShadow = true;
+    ambientLight.shadowDarkness =100;
    scene.add(ambientLight);
 
 //    backLight = new THREE.DirectionalLight(0x000000, 0.4);
-// backLight.position.set(200, 200, 50);
+// backLight.position.set(200, -200, 50);
 // backLight.castShadow = true;
+// light.castShadow = true;
+//     light.shadowDarkness = 100;
 // scene.add(backLight);
 
     //Create all our shapes
@@ -98,6 +116,7 @@ scene.add(camera);
     chicken.add(head);
     chicken.position.x = 0;
     chicken.position.y = -350;
+    // chicken.castShadow=true;
     // chicken.rotation.x=100;
 
     // chicken.rotation.y=100;
@@ -123,6 +142,10 @@ scene.add(camera);
     } 
     truck.position.x = -1000;
       truck.position.y = 100;
+      truck.castShadow=true;
+      truck.receiveShadow=true;
+
+
       // truck.rotation.x=100
     // scene.add(truck);
     return truck;
@@ -190,15 +213,18 @@ scene.add(camera);
     //   new THREE.BoxBufferGeometry(1000, 10, 1),
     //   new THREE.MeshLambertMaterial({ color: 0x505050, flatShading: true })
     // );   
-    r[i] = new THREE.Mesh(new THREE.PlaneGeometry(100000, 50), new THREE.MeshLambertMaterial({ color: 0x505050, side: THREE.DoubleSide }));
+    r[i] = new THREE.Mesh(new THREE.PlaneGeometry(100000, 50), new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide }));
     r[i].position.x=10;
     r[i].position.y=10+i*50;
+    r[i].receiveShadow=true;
     road.add(r[i]);
   }
     // scene.add(road);
     // road.position.y=Math.random();
     // road.rotation.x=100
     road.position.z=-20;
+    // road.receiveShadow=true;
+
     return road;
 
   }
@@ -210,11 +236,15 @@ scene.add(camera);
     gr[i] = new THREE.Mesh(new THREE.PlaneGeometry(ww, 50), new THREE.MeshLambertMaterial({ color: 0x004d00, side: THREE.DoubleSide }));
 gr[i].position.x=10;
     gr[i].position.y=10+(i*50);
+    gr[i].receiveShadow=true;
+
     grass1.add(gr[i]);
   }
     // scene.add(road);
     grass1.position.y=-100;
     grass1.position.z=-20;
+    grass1.receiveShadow=true;
+
     // grass1.rotation.x=100
     // grass.position.x=5;
     return grass1;
@@ -241,12 +271,16 @@ branch.position.y=20;
       tr.add(branch);
       tr.position.y=-50;
       tr.rotation.x=-300;
+      tr.receiveShadow=true;
+      tr.castShadow=true;
       // scene.add(tr);
       
       return tr;
   }
   function createShapes() {
 c=chick()
+// light.target = c;
+
     scene.add(c);
 
     
@@ -280,7 +314,7 @@ c=chick()
     // scene.add(ik);
     
     // Math.floor(Math.random()*3)+1
-    gra=grass(1);
+    gra=grass(5);
     // gra.position.y=200;
     scene.add(gra);
 
@@ -326,18 +360,18 @@ scene.add(car);
   document.onkeydown = (e) => {
 
     if (e.key == 'ArrowLeft') {
-      chicken.position.x -= 5;
+      c.position.x -= 5;
       // chicken.rotation.z += 20;
       
       // console.log("arrow left");   
     }
     if (e.key == 'ArrowRight') {
-      chicken.position.x += 5;
+      c.position.x += 5;
       // console.log("arrow right");   
     }
     if (e.key == 'ArrowUp') {
       // console.log("arrow up");   
-      chicken.position.y += 5;
+      c.position.y += 5;
       // requestAnimationFrame(rotateSphere);
 	// chicken.translateY(-1); 
  	// chicken.rotateX(0.13455);
@@ -349,12 +383,12 @@ scene.add(car);
     }
     if (e.key == 'ArrowDown') {
       // console.log("arrow down");   
-      chicken.position.y -= 5;
+      c.position.y -= 5;
     }
 
     // e.preventDefault();
   }
-
+ 
 
   var render = function () {
     requestAnimationFrame(render);
