@@ -14,7 +14,8 @@
 
     /* WEBGL RENDERER */
     renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
-    renderer.setClearColor(0x008000);
+    renderer.setClearColor(0x000000);
+    // 0x008000
     renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(ww, wh);
@@ -36,11 +37,18 @@
   camera.rotation.x = 50*Math.PI/180;
 camera.rotation.y = 20*Math.PI/180;
  
-//   const distance = 500;
+  const distance = 500;
 //     camera = new THREE.OrthographicCamera( window.innerWidth/-2, window.innerWidth/2, window.innerHeight / 2, window.innerHeight / -2, -1000, 10000 );
 //   camera.rotation.x = 50*Math.PI/180;
 // camera.rotation.y = 20*Math.PI/180;
 // camera.rotation.z = 10*Math.PI/180;
+
+// const initialCameraPositionY = -Math.tan(camera.rotation.x)*distance;
+// const initialCameraPositionX = Math.tan(camera.rotation.y)*Math.sqrt(distance**2 + initialCameraPositionY**2);
+// camera.position.y = initialCameraPositionY;
+// camera.position.x = initialCameraPositionX;
+// camera.position.z = distance;
+
 
 // const initialCameraPositionY = -Math.tan(camera.rotation.x)*distance;
 // const initialCameraPositionX = Math.tan(camera.rotation.y)*Math.sqrt(distance**2 + initialCameraPositionY**2);
@@ -53,11 +61,17 @@ scene.add(camera);
 
 
     /* LIGHT */
-    light = new THREE.DirectionalLight(0xffffff, 0.5);
-    light.position.set(-200, -500, 200);
-    light.castShadow = true;
-    light.shadowDarkness = 0.5;
-    light.shadowDarkness =100;
+    // light = new THREE.DirectionalLight(0xffffff, 0.5);
+    // light.position.set(-100, -100, 200);
+    // light.castShadow = true;
+    // light.shadowDarkness = 0.5;
+    // light.shadowDarkness =100;
+
+    const initialDirLightPositionX = -200;
+const initialDirLightPositionY = -400;
+light = new THREE.DirectionalLight(0xffffff, 0.6);
+light.position.set(initialDirLightPositionX, initialDirLightPositionY, 200);
+light.castShadow = true;
 
     light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
@@ -66,19 +80,25 @@ light.shadow.camera.left = - d;
 light.shadow.camera.right = d;
 light.shadow.camera.top = d;
 light.shadow.camera.bottom = - d;
+light.shadow.camera.near = 0.5; // default
+light.shadow.camera.far = 1000; // default
+// light.shadow.camera.position.x=400;
 // light.target = chicken;
  scene.add(light);
+//  var helper = new THREE.CameraHelper( camera );
 
+// const helper = new THREE.CameraHelper( light.shadow.camera );
+// scene.add( helper );
     ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 	 ambientLight.position.set( 0, 1000, 50 );
-   ambientLight.castShadow = true;
+  //  ambientLight.castShadow = true;
     ambientLight.shadowDarkness =100;
    scene.add(ambientLight);
 
 //    backLight = new THREE.DirectionalLight(0x000000, 0.4);
-// backLight.position.set(200, -200, 50);
+// backLight.position.set(200, 200, 50);
 // backLight.castShadow = true;
-// light.castShadow = true;
+// // light.castShadow = true;
 //     light.shadowDarkness = 100;
 // scene.add(backLight);
 
@@ -110,12 +130,14 @@ light.shadow.camera.bottom = - d;
       new THREE.BoxBufferGeometry(2 * zoom, 4 * zoom, 2 * zoom),
       new THREE.MeshLambertMaterial({ color: 0xF0619A, flatShading: true })
     );
-    head.position.z = 20 * zoom;
+    head.position.z = 35;
     head.castShadow = true;
     head.receiveShadow = false;
     chicken.add(head);
     chicken.position.x = 0;
     chicken.position.y = -350;
+    chicken.position.z = -25;
+
     // chicken.castShadow=true;
     // chicken.rotation.x=100;
 
@@ -129,21 +151,24 @@ light.shadow.camera.bottom = - d;
     truck = new THREE.Group();
     for (i = 0; i < n; i++) {
 
-      trucks0[i] = new THREE.Mesh(
-        new THREE.BoxBufferGeometry(100, 30, 10 * zoom),
-        new THREE.MeshLambertMaterial({ color: 0xffffff })
-      );
+      trucks0[i] = createCar();
       // , flatShading: true.
       trucks0[i].position.y = 100;
       trucks0[i].position.x = 100 - (i * 200);
+      
+      trucks0[i].castShadow=true;
+      trucks0[i].receiveShadow=true;
+
       truck.add(trucks0[i]);
      
 
     } 
     truck.position.x = -1000;
       truck.position.y = 100;
-      truck.castShadow=true;
-      truck.receiveShadow=true;
+      // truck.position.z = -25;
+
+      // truck.castShadow=true;
+      // truck.receiveShadow=true;
 
 
       // truck.rotation.x=100
@@ -157,6 +182,8 @@ light.shadow.camera.bottom = - d;
     console.log(p);
     console.log(o.position.x)
     console.log(ww)
+    // k.rotation.z=-Math.PI;
+  
     if (o.position.x <= 800) o.position.x++;
       else {
         o.position.x = -800;
@@ -166,6 +193,7 @@ light.shadow.camera.bottom = - d;
 
       if (k.position.x >= -1000) k.position.x--;
       else {
+        
         k.position.x = 1000;
         // p = Math.floor(Math.random() * 3);
 
@@ -233,17 +261,18 @@ light.shadow.camera.bottom = - d;
     var gr =[];
    grass1 = new THREE.Group();
    for(i=0;i<l;i++){    
-    gr[i] = new THREE.Mesh(new THREE.PlaneGeometry(ww, 50), new THREE.MeshLambertMaterial({ color: 0x004d00, side: THREE.DoubleSide }));
+    gr[i] = new THREE.Mesh(new THREE.PlaneGeometry(ww, 50), new THREE.MeshLambertMaterial({ color: 0x008000, side: THREE.DoubleSide }));
 gr[i].position.x=10;
     gr[i].position.y=10+(i*50);
     gr[i].receiveShadow=true;
+    
 
     grass1.add(gr[i]);
   }
     // scene.add(road);
     grass1.position.y=-100;
     grass1.position.z=-20;
-    grass1.receiveShadow=true;
+    // grass1.receiveShadow=true;
 
     // grass1.rotation.x=100
     // grass.position.x=5;
@@ -267,19 +296,22 @@ trunk.rotation.z=Math.PI/2;
 // trunk.rotation.x=Math.PI/2;
 branch.rotation.x=Math.PI/2;
 branch.position.y=20;
+trunk.receiveShadow=true;
+      trunk.castShadow=true;
+      branch.receiveShadow=true;
+      branch.castShadow=true;
       tr.add(trunk);
       tr.add(branch);
       tr.position.y=-50;
       tr.rotation.x=-300;
-      tr.receiveShadow=true;
-      tr.castShadow=true;
+      
       // scene.add(tr);
       
       return tr;
   }
   function createShapes() {
 c=chick()
-// light.target = c;
+light.target = c;
 
     scene.add(c);
 
@@ -314,8 +346,8 @@ c=chick()
     // scene.add(ik);
     
     // Math.floor(Math.random()*3)+1
-    gra=grass(5);
-    // gra.position.y=200;
+    gra=grass(10);
+    gra.position.y=-400;
     scene.add(gra);
 
     // grs=grass(1);
@@ -349,8 +381,10 @@ q.position.x=-400;
 q.position.y=-70;
 scene.add(q);
 
-car=createCar2();
+car=createCar();
 car.rotation.x=900;
+car.position.y=200;
+// car.position.z=-20;
 scene.add(car);
 
    
@@ -361,17 +395,25 @@ scene.add(car);
 
     if (e.key == 'ArrowLeft') {
       c.position.x -= 5;
+      camera.position.x=initialCameraPositionX+c.position.x;
+      light.position.x=initialDirLightPositionX+c.position.x;
       // chicken.rotation.z += 20;
       
       // console.log("arrow left");   
     }
     if (e.key == 'ArrowRight') {
       c.position.x += 5;
+      camera.position.x=initialCameraPositionX+c.position.x;
+      light.position.x=initialDirLightPositionX+c.position.x;
+
       // console.log("arrow right");   
     }
     if (e.key == 'ArrowUp') {
       // console.log("arrow up");   
       c.position.y += 5;
+      camera.position.y=initialCameraPositionY+c.position.y;
+      light.position.y=initialDirLightPositionY+c.position.y;
+
       // requestAnimationFrame(rotateSphere);
 	// chicken.translateY(-1); 
  	// chicken.rotateX(0.13455);
@@ -384,6 +426,10 @@ scene.add(car);
     if (e.key == 'ArrowDown') {
       // console.log("arrow down");   
       c.position.y -= 5;
+      camera.position.y=initialCameraPositionY+c.position.y;
+      light.position.y=initialDirLightPositionY+c.position.y;
+
+      
     }
 
     // e.preventDefault();
@@ -399,6 +445,8 @@ scene.add(car);
     // camera.lookAt(c.position.x,c.position.y,0);
     camera.position.y = c.position.y;
 camera.position.x = c.position.x;
+light.position.x=-200+c.position.x;
+light.position.y=-400+c.position.y;
     movetruck();
     renderer.render(scene, camera);
 
@@ -409,9 +457,25 @@ camera.position.x = c.position.x;
   const geometry = new THREE.BoxBufferGeometry(12, 12, 33);
   const material = new THREE.MeshLambertMaterial({ color: 0x333333 });
   const wheel = new THREE.Mesh(geometry, material);
+  wheel.castShadow=true;
+  wheel.receiveShadow=true;
   return wheel;
 }
-  function createCar() {
+function getCarFrontTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 32;
+  const context = canvas.getContext("2d");
+
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, 64, 32);
+
+  context.fillStyle = "#666666";
+  context.fillRect(8, 8, 48, 24);
+
+  return new THREE.CanvasTexture(canvas);
+}
+function createCar() {
   const car = new THREE.Group();
 
   const backWheel = createWheels();
@@ -429,9 +493,11 @@ camera.position.x = c.position.x;
     new THREE.MeshLambertMaterial({ color: 0xa52523 })
   );
   main.position.y = 12;
+  main.receiveShadow=true;
+  main.castShadow=true;
   car.add(main);
 
-  // const carFrontTexture = getCarFrontTexture();
+  const carFrontTexture = getCarFrontTexture();
 
   // const carBackTexture = getCarFrontTexture();
 
@@ -442,58 +508,22 @@ camera.position.x = c.position.x;
   // carLeftSideTexture.rotation = Math.PI;
   // carLeftSideTexture.flipY = false;
 
-  var loader = new THREE.TextureLoader();
-  // loader.crossOrigin = 'anonymous';
-  var texture = loader.load("images.jpg");
-
-  // material = new THREE.MeshLambertMaterial({
-  //   map: texture
-  // });
-
-  const cabin = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 12, 24), [
-    new THREE.MeshLambertMaterial({ map: texture }),
-    new THREE.MeshLambertMaterial({ map: texture }),
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // top
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // bottom
-    new THREE.MeshLambertMaterial({ map: texture }),
-    new THREE.MeshLambertMaterial({ map: texture }),
-  ]);
+  const cabin = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 12, 24),  new THREE.MeshLambertMaterial({ map: carFrontTexture }));
   cabin.position.x = -6;
   cabin.position.y = 25.5;
+  cabin.castShadow=true;
+  cabin.receiveShadow=true;
   car.add(cabin);
-
-  return car;
-}
-
-
-function createCar2() {
-  const car = new THREE.Group();
   
-  const backWheel = createWheels();
-  backWheel.position.y = 6;
-  backWheel.position.x = -18;
-  car.add(backWheel);
-  
-  const frontWheel = createWheels();
-  frontWheel.position.y = 6;  
-  frontWheel.position.x = 18;
-  car.add(frontWheel);
-
-  const main = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(60, 15, 30),
-    new THREE.MeshLambertMaterial({ color: 0x78b14b })
-  );
-  main.position.y = 12;
-  car.add(main);
-
-  const cabin = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(33, 12, 24),
-    new THREE.MeshLambertMaterial({ color: 0xffffff })
-  );
-  cabin.position.x = -6;
-  cabin.position.y = 25.5;
-  car.add(cabin);
-
+  const cabin2 = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 1, 24),new THREE.MeshLambertMaterial({ color: 0xffffff }));
+  cabin2.position.x = -6;
+  cabin2.position.y = 31.5;
+  cabin2.receiveShadow=true;
+  cabin2.castShadow=true;
+  car.add(cabin2);
+  car.position.z=-20
+  car.rotation.x=900;
+  // car.rotation.y=-Math.PI;
   return car;
 }
 

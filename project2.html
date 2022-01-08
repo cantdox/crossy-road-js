@@ -85,10 +85,10 @@ light.shadow.camera.far = 1000; // default
 // light.shadow.camera.position.x=400;
 // light.target = chicken;
  scene.add(light);
- var helper = new THREE.CameraHelper( camera );
+//  var helper = new THREE.CameraHelper( camera );
 
-//  var helper = new THREE.CameraHelper( light.shadow.camera );
-scene.add( helper );
+// const helper = new THREE.CameraHelper( light.shadow.camera );
+// scene.add( helper );
     ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 	 ambientLight.position.set( 0, 1000, 50 );
   //  ambientLight.castShadow = true;
@@ -154,7 +154,7 @@ scene.add( helper );
       trucks0[i] = createCar();
       // , flatShading: true.
       trucks0[i].position.y = 100;
-      trucks0[i].position.x = 50 - (i * 200);
+      trucks0[i].position.x = 100 - (i * 200);
       
       trucks0[i].castShadow=true;
       trucks0[i].receiveShadow=true;
@@ -163,8 +163,8 @@ scene.add( helper );
      
 
     } 
-    truck.position.x = -1000;
-      truck.position.y = 100;
+    // truck.position.x = -1000;
+    //   truck.position.y = 100;
       // truck.position.z = -25;
 
       // truck.castShadow=true;
@@ -309,33 +309,51 @@ trunk.receiveShadow=true;
       
       return tr;
   }
+   var car1=[];
   function createShapes() {
 c=chick()
 light.target = c;
 
     scene.add(c);
 
-    
-    t = newtruck(3);
+    var trucks0 = [];
+    // truck = new THREE.Group();
+    for (i = 0; i < 50; i++) {
+
+      trucks0[i] = createCar();
+      // , flatShading: true.
+      trucks0[i].position.y = 100- (i * 50);
+    //   100- (i * 50);
+    //   trucks0[i].position.x = 100- (i * 100) ;
+      
+      trucks0[i].castShadow=true;
+      trucks0[i].receiveShadow=true;
+
+      scene.add(trucks0[i]);
+    } 
     // t.position.x=100;
     // t.position.y=50;
 
-    scene.add(t);
 
-    r = newtruck(2);
-    scene.add(r);
 
-    n = newtruck(1);
-    scene.add(n);
+//   t = newtruck(3);
+//     scene.add(t);
 
-    o = newtruck(2);
-    scene.add(o);
-    o.position.y=50;
+    // r = newtruck(2);
+    // scene.add(r);
 
-    k = newtruck(3);
-    scene.add(k);
-    k.position.y=150;
-    k.position.x = 650;
+    // n = newtruck(1);
+    // scene.add(n);
+
+    // o = newtruck(2);
+    // scene.add(o);
+    // o.position.y=50;
+
+    // k = newtruck(3);
+    // scene.add(k);
+    // k.position.y=150;
+    // k.position.x = 650;
+    
     // Math.floor(Math.random()*4)+1
     ro=road(4);
     ro.position.y=100;
@@ -390,35 +408,29 @@ scene.add(car);
    
   };
 
-//   light.shadow.camera.left = - d;
-// light.shadow.camera.right = d;
-// light.shadow.camera.top = d;
-// light.shadow.camera.bottom = - d;
+
   document.onkeydown = (e) => {
 
     if (e.key == 'ArrowLeft') {
       c.position.x -= 5;
-      // camera.position.x=initialCameraPositionX+c.position.x;
+      camera.position.x=initialCameraPositionX+c.position.x;
       light.position.x=initialDirLightPositionX+c.position.x;
-      light.shadow.camera.left = - d+c.position.x;
       // chicken.rotation.z += 20;
       
       // console.log("arrow left");   
     }
     if (e.key == 'ArrowRight') {
       c.position.x += 5;
-      // camera.position.x=initialCameraPositionX+c.position.x;
+      camera.position.x=initialCameraPositionX+c.position.x;
       light.position.x=initialDirLightPositionX+c.position.x;
-      light.shadow.camera.right = d+c.position.x;
 
       // console.log("arrow right");   
     }
     if (e.key == 'ArrowUp') {
       // console.log("arrow up");   
       c.position.y += 5;
-      // camera.position.y=initialCameraPositionY+c.position.y;
+      camera.position.y=initialCameraPositionY+c.position.y;
       light.position.y=initialDirLightPositionY+c.position.y;
-      light.shadow.camera.top = d+c.position.y;
 
       // requestAnimationFrame(rotateSphere);
 	// chicken.translateY(-1); 
@@ -432,9 +444,8 @@ scene.add(car);
     if (e.key == 'ArrowDown') {
       // console.log("arrow down");   
       c.position.y -= 5;
-      // camera.position.y=initialCameraPositionY+c.position.y;
+      camera.position.y=initialCameraPositionY+c.position.y;
       light.position.y=initialDirLightPositionY+c.position.y;
-      light.shadow.camera.bottom = -d+c.position.y;
 
       
     }
@@ -452,11 +463,9 @@ scene.add(car);
     // camera.lookAt(c.position.x,c.position.y,0);
     camera.position.y = c.position.y;
 camera.position.x = c.position.x;
-// light.position.y = c.position.y;
-// light.position.x = c.position.x;
-light.position.x=initialDirLightPositionX+Z
-
-    movetruck();
+light.position.x=-200+c.position.x;
+light.position.y=-400+c.position.y;
+    // movetruck();
     renderer.render(scene, camera);
 
     
