@@ -1,7 +1,11 @@
 <!-- My scene -->
+<html>
+
+
+
 <canvas id="myCanvas"></canvas>
 <body>
-
+<!-- <button>gvhbh</button> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
 <script>
@@ -14,7 +18,7 @@
 
     /* WEBGL RENDERER */
     renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
-    renderer.setClearColor(0x000000);
+    renderer.setClearColor(0x008000);
     // 0x008000
     renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -75,20 +79,20 @@ light.castShadow = true;
 
     light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
-var d = 500;
+var d = 1000;
 light.shadow.camera.left = - d;
 light.shadow.camera.right = d;
 light.shadow.camera.top = d;
 light.shadow.camera.bottom = - d;
 light.shadow.camera.near = 0.5; // default
-light.shadow.camera.far = 1000; // default
+light.shadow.camera.far = 10000; // default
 // light.shadow.camera.position.x=400;
 // light.target = chicken;
  scene.add(light);
 //  var helper = new THREE.CameraHelper( camera );
 
-// const helper = new THREE.CameraHelper( light.shadow.camera );
-// scene.add( helper );
+const helper = new THREE.CameraHelper( light.shadow.camera );
+scene.add( helper );
     ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 	 ambientLight.position.set( 0, 1000, 50 );
   //  ambientLight.castShadow = true;
@@ -176,74 +180,171 @@ light.shadow.camera.far = 1000; // default
     return truck;
   };
   p = Math.floor(Math.random() * 3);
+  function movetruck2() {
+
+// console.log(p);
+// console.log(o.position.x)
+// console.log(ww)
+// k.rotation.z=-Math.PI;
+
+if (o.position.x <= 800) o.position.x++;
+  else {
+    o.position.x = -800;
+    // p = Math.floor(Math.random() * 3);
+
+  }
+
+  if (k.position.x >= -1000) k.position.x--;
+  else {
+    
+    k.position.x = 1000;
+    // p = Math.floor(Math.random() * 3);
+
+  }
+
+
+if (p == 0) {
+
+  if (t.position.x <= 1000) t.position.x++;
+
+  else {
+
+    t.position.x = -1000;
+    p = Math.floor(Math.random() * 3);
+  }
+}
+
+if (p == 1) {
+
+  if (r.position.x <= 800) r.position.x++;
+  else {
+    r.position.x = -800;
+    p = Math.floor(Math.random() * 3);
+  }
+}
+
+if (p == 2) {
+
+  if (n.position.x <= 600) n.position.x++;
+  else {
+    n.position.x = -800;
+    p = Math.floor(Math.random() * 3);
+
+  }
+}
+
+
+
+};
+
 
   function movetruck() {
 
-    console.log(p);
-    console.log(o.position.x)
-    console.log(ww)
+    // console.log(p);
+    // console.log(o.position.x)
+    // console.log(ww)
     // k.rotation.z=-Math.PI;
-  
-    if (o.position.x <= 800) o.position.x++;
+    for (i = 0; i < 14; i++) {
+      // var random = Math.floor(Math.random() * car1.length);
+   if( isreverse(trucks0[i])){
+    if (trucks0[i].position.x >= -1000)
+     trucks0[i].position.x--;
       else {
-        o.position.x = -800;
+       
+        trucks0[i].position.x = 1000;
         // p = Math.floor(Math.random() * 3);
 
       }
+   }
+   else{
+    if (trucks0[i].position.x <= 1000) 
+    trucks0[i].position.x++;
 
-      if (k.position.x >= -1000) k.position.x--;
-      else {
+else {
+
+  trucks0[i].position.x = -1000;
+  // p = Math.floor(Math.random() * 3);
+}
+
+}
+// if(c.position.x==trucks0[i].position.x&&c.position.y==trucks0[i].position.y)
+if(Math.abs(c.position.x - trucks0[i].position.x)<45 && Math.abs(c.position.y - trucks0[i].position.y)<45)
+alert("hit");
+
+   }
+      // trucks0[i] = createCar();
+      // , flatShading: true.
+      // trucks0[i].position.y = car1[i];
+      // trucks0[i].rotation.y=-Math.PI;
+    //   100- (i * 50);
+    //   trucks0[i].position.x = 100- (i * 100) ;
+      
+      // trucks0[i].castShadow=true;
+      // trucks0[i].receiveShadow=true;
+
+      // scene.add(trucks0[i]);
+    // } 
+    // if (o.position.x <= 800) o.position.x++;
+    //   else {
+    //     o.position.x = -800;
+    //     // p = Math.floor(Math.random() * 3);
+
+    //   }
+
+    //   if (k.position.x >= -1000) k.position.x--;
+    //   else {
         
-        k.position.x = 1000;
-        // p = Math.floor(Math.random() * 3);
+    //     k.position.x = 1000;
+    //     // p = Math.floor(Math.random() * 3);
 
-      }
+    //   }
 
 
-    if (p == 0) {
+    // if (p == 0) {
    
-      if (t.position.x <= 1000) t.position.x++;
+    //   if (t.position.x <= 1000) t.position.x++;
 
-      else {
+    //   else {
 
-        t.position.x = -1000;
-        p = Math.floor(Math.random() * 3);
-      }
-    }
+    //     t.position.x = -1000;
+    //     p = Math.floor(Math.random() * 3);
+    //   }
+    // }
 
-    if (p == 1) {
+    // if (p == 1) {
     
-      if (r.position.x <= 800) r.position.x++;
-      else {
-        r.position.x = -800;
-        p = Math.floor(Math.random() * 3);
-      }
-    }
+    //   if (r.position.x <= 800) r.position.x++;
+    //   else {
+    //     r.position.x = -800;
+    //     p = Math.floor(Math.random() * 3);
+    //   }
+    // }
 
-    if (p == 2) {
+    // if (p == 2) {
     
-      if (n.position.x <= 600) n.position.x++;
-      else {
-        n.position.x = -800;
-        p = Math.floor(Math.random() * 3);
+    //   if (n.position.x <= 600) n.position.x++;
+    //   else {
+    //     n.position.x = -800;
+    //     p = Math.floor(Math.random() * 3);
 
-      }
-    }
+    //   }
+    // }
 
 
 
   };
-  function road(n) {
+  function road() {
    var r =[];
    road = new THREE.Group();
-   for(i=0;i<n;i++){ 
+   for(i=0;i<50;i++){ 
     // r[i] = new THREE.Mesh(
     //   new THREE.BoxBufferGeometry(1000, 10, 1),
     //   new THREE.MeshLambertMaterial({ color: 0x505050, flatShading: true })
     // );   
-    r[i] = new THREE.Mesh(new THREE.PlaneGeometry(100000, 50), new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide }));
+    r[i] = new THREE.Mesh(new THREE.PlaneGeometry(100000, 60), new THREE.MeshLambertMaterial({ color: 0x454A59, side: THREE.DoubleSide }));
     r[i].position.x=10;
-    r[i].position.y=10+i*50;
+    r[i].position.y=car1[i];
+    // 10+i*50;
     r[i].receiveShadow=true;
     road.add(r[i]);
   }
@@ -256,21 +357,25 @@ light.shadow.camera.far = 1000; // default
     return road;
 
   }
-
-  function grass(l){
+var trs=[];
+  function grass(){
     var gr =[];
-   grass1 = new THREE.Group();
-   for(i=0;i<l;i++){    
-    gr[i] = new THREE.Mesh(new THREE.PlaneGeometry(ww, 50), new THREE.MeshLambertMaterial({ color: 0x008000, side: THREE.DoubleSide }));
-gr[i].position.x=10;
-    gr[i].position.y=10+(i*50);
-    gr[i].receiveShadow=true;
     
-
+   grass1 = new THREE.Group();
+   for(i=0;i<grasses.length;i++){    
+    gr[i] = new THREE.Mesh(new THREE.PlaneGeometry(100000, 60), new THREE.MeshLambertMaterial({ color: 0x008000, side: THREE.DoubleSide }));
+gr[i].position.x=10;
+    gr[i].position.y=grasses[i];
+    gr[i].receiveShadow=true;
+    trs[i]=tree();
+    // trs.position.x=Math.random()*ww;
+    trs[i].position.x=(Math.random()-.5)*ww
+    trs[i].position.y=gr[i].position.y;
+    scene.add(trs[i]);
     grass1.add(gr[i]);
   }
     // scene.add(road);
-    grass1.position.y=-100;
+    // grass1.position.y=-100;
     grass1.position.z=-20;
     // grass1.receiveShadow=true;
 
@@ -302,27 +407,38 @@ trunk.receiveShadow=true;
       branch.castShadow=true;
       tr.add(trunk);
       tr.add(branch);
-      tr.position.y=-50;
+      // tr.position.y=-50;
       tr.rotation.x=-300;
       
       // scene.add(tr);
       
       return tr;
   }
-   var car1=[];
-  function createShapes() {
+ function isreverse(carrev){
+if(carrev.rotation.y==-Math.PI)
+return true;
+else 
+return false;
+ }
+  var car1=[120,180,240,480,540,600,780,960,1020,1080,1140,1380,1440,1500];
+   var grasses=[-420,-360,-300,-240,-180,-120,-60,0,60,300,360,420,660,720,840,900,1200,1260,1320,1560,1620,1680];
+//  var roads=  [10,60,110,160];
+var trucks0 = [];
+   function createShapes() {
 c=chick()
 light.target = c;
 
     scene.add(c);
 
-    var trucks0 = [];
+    
     // truck = new THREE.Group();
+    var random = Math.floor(Math.random() * car1.length);
     for (i = 0; i < 50; i++) {
-
+      
       trucks0[i] = createCar();
       // , flatShading: true.
-      trucks0[i].position.y = 100- (i * 50);
+      trucks0[i].position.y = car1[i];
+      // trucks0[random].rotation.y=-Math.PI;
     //   100- (i * 50);
     //   trucks0[i].position.x = 100- (i * 100) ;
       
@@ -333,7 +449,22 @@ light.target = c;
     } 
     // t.position.x=100;
     // t.position.y=50;
+    // var random = Math.floor(Math.random() * car1.length);
+    for (i = 0; i < 14; i++) {
+      var random = Math.floor(Math.random() * car1.length);
+   
+      // trucks0[i] = createCar();
+      // , flatShading: true.
+      // trucks0[i].position.y = car1[i];
+      trucks0[random].rotation.y=-Math.PI;
+    //   100- (i * 50);
+    //   trucks0[i].position.x = 100- (i * 100) ;
+      
+      // trucks0[i].castShadow=true;
+      // trucks0[i].receiveShadow=true;
 
+      // scene.add(trucks0[i]);
+    } 
 
 
 //   t = newtruck(3);
@@ -355,8 +486,8 @@ light.target = c;
     // k.position.x = 650;
     
     // Math.floor(Math.random()*4)+1
-    ro=road(4);
-    ro.position.y=100;
+    ro=road();
+    // ro.position.y=100;
     scene.add(ro);
 
     // ik=road(2);
@@ -364,8 +495,8 @@ light.target = c;
     // scene.add(ik);
     
     // Math.floor(Math.random()*3)+1
-    gra=grass(10);
-    gra.position.y=-400;
+    gra=grass();
+    // gra.position.y=-400;
     scene.add(gra);
 
     // grs=grass(1);
@@ -378,59 +509,121 @@ light.target = c;
     // grs1.position.y=-300;
     // scene.add(grs1);
 
-    u=tree();
-    u.position.x=400;
-    u.position.y=-70;
-scene.add(u);
+//     u=tree();
+//     u.position.x=400;
+//     u.position.y=-70;
+// scene.add(u);
 
 
-j=tree();
-j.position.x=100;
-j.position.y=-70;
-scene.add(j);
+// j=tree();
+// j.position.x=100;
+// j.position.y=-70;
+// scene.add(j);
 
-b=tree();
-b.position.x=-150;
-b.position.y=-70;
-scene.add(b);
+// b=tree();
+// b.position.x=-150;
+// b.position.y=-70;
+// scene.add(b);
 
-q=tree();
-q.position.x=-400;
-q.position.y=-70;
-scene.add(q);
+// q=tree();
+// q.position.x=-400;
+// q.position.y=-70;
+// scene.add(q);
 
-car=createCar();
-car.rotation.x=900;
-car.position.y=200;
-// car.position.z=-20;
-scene.add(car);
+// car=createCar();
+// car.rotation.x=900;
+// car.position.y=200;
+// // car.position.z=-20;
+// scene.add(car);
 
    
   };
-
+  function treehit(){ 
+    for(i=0;i<grasses.length;i++){    
+//     gr[i] = new THREE.Mesh(new THREE.PlaneGeometry(100000, 60), new THREE.MeshLambertMaterial({ color: 0x008000, side: THREE.DoubleSide }));
+// gr[i].position.x=10;
+//     gr[i].position.y=grasses[i];
+//     gr[i].receiveShadow=true;
+    // trs[i]=tree();
+    // trs.position.x=Math.random()*ww;
+    // if(c.position)
+    // trs[i].position.x=(Math.random()-.5)*ww
+    // trs[i].position.y=gr[i].position.y;
+    // scene.add(trs[i]);
+    // grass1.add(gr[i]);
+    // if(c.position.x -= 5){
+      if(Math.abs((c.position.x-5) - trs[i].position.x)<45 && Math.abs(c.position.y - trs[i].position.y)<45)
+// alert("hit");
+return 'left';
+// }
+// c.position.x += 5;
+// if(c.position.x += 5){
+      if(Math.abs((c.position.x+5) - trs[i].position.x)<45 && Math.abs(c.position.y - trs[i].position.y)<45)
+// alert("hit");
+return 'right';
+// }
+// c.position.x -= 5;
+    
+// if(c.position.y += 5){
+      if(Math.abs(c.position.x - trs[i].position.x)<45 && Math.abs((c.position.y+5) - trs[i].position.y)<45)
+// alert("hit");
+return 'up';
+// }
+// c.position.y -= 5;
+// if( c.position.y -= 5){
+      if(Math.abs(c.position.x - trs[i].position.x)<45 && Math.abs((c.position.y-5) - trs[i].position.y)<45)
+// alert("hit");
+return 'down';
+// }
+// c.position.y += 5;
+    
+    
+// else
+// return false;
+  }
+}
+ 
 
   document.onkeydown = (e) => {
 
     if (e.key == 'ArrowLeft') {
+      if(treehit()=='left'){
+
+      } 
+      else
       c.position.x -= 5;
-      camera.position.x=initialCameraPositionX+c.position.x;
-      light.position.x=initialDirLightPositionX+c.position.x;
+     
+      // alert("hit");
+      // camera.position.x=initialCameraPositionX+c.position.x;
+      // light.position.x=initialDirLightPositionX+c.position.x;
       // chicken.rotation.z += 20;
       
       // console.log("arrow left");   
     }
     if (e.key == 'ArrowRight') {
+      if(treehit()=='right'){
+
+} 
+else
       c.position.x += 5;
-      camera.position.x=initialCameraPositionX+c.position.x;
-      light.position.x=initialDirLightPositionX+c.position.x;
+      // else
+      // alert("hit");
+      // camera.position.x=initialCameraPositionX+c.position.x;
+      // light.position.x=initialDirLightPositionX+c.position.x;
 
       // console.log("arrow right");   
     }
     if (e.key == 'ArrowUp') {
+      if(treehit()=='up'){
+
+} 
+else
       // console.log("arrow up");   
       c.position.y += 5;
-      camera.position.y=initialCameraPositionY+c.position.y;
-      light.position.y=initialDirLightPositionY+c.position.y;
+      // else
+      // alert("hit");
+      // camera.position.y=initialCameraPositionY+c.position.y;
+      // light.position.y=initialDirLightPositionY+c.position.y;
 
       // requestAnimationFrame(rotateSphere);
 	// chicken.translateY(-1); 
@@ -442,10 +635,16 @@ scene.add(car);
       // chicken.rotation.x+=1;
     }
     if (e.key == 'ArrowDown') {
+      if(treehit()=='down'){
+
+} 
+else
       // console.log("arrow down");   
       c.position.y -= 5;
-      camera.position.y=initialCameraPositionY+c.position.y;
-      light.position.y=initialDirLightPositionY+c.position.y;
+      // else
+      // alert("hit");
+      // camera.position.y=initialCameraPositionY+c.position.y;
+      // light.position.y=initialDirLightPositionY+c.position.y;
 
       
     }
@@ -465,7 +664,7 @@ scene.add(car);
 camera.position.x = c.position.x;
 light.position.x=-200+c.position.x;
 light.position.y=-400+c.position.y;
-    // movetruck();
+    movetruck();
     renderer.render(scene, camera);
 
     
@@ -552,3 +751,4 @@ function createCar() {
 
 </script>
 </body>
+</html>
