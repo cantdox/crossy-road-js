@@ -347,7 +347,7 @@ return 'down';
 
       } 
       else
-      c.position.x -= 5;
+      c.position.x -= 50;
      
     }
     if (e.key == 'ArrowRight') {
@@ -358,7 +358,7 @@ return 'down';
 
 } 
 else
-      c.position.x += 5;
+      c.position.x += 50;
     }
     if (e.key == 'ArrowUp') {
       if(treehit()=='up'){
@@ -367,7 +367,7 @@ else
 else if(c.position.y==2405){
   alert("congrats you have won! your score is: "+score+" press restart to play again");
 } 
-else{c.position.y += 5;
+else{c.position.y += 50;
       score++;
       document.getElementById('score').innerHTML = "Score: " + score;
  
@@ -381,7 +381,7 @@ else{c.position.y += 5;
 
 } 
 else
-      c.position.y -= 5;
+      c.position.y -= 50;
 
       
     }
